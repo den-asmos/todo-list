@@ -1,39 +1,58 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { AddNewTodo, FilterTodos, Todo } from './components';
+import { useGetTodos } from './hooks';
 
 export const App = () => {
-	const [todos, setTodos] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+	const [refreshTodosFlag, setRefreshTodosFlag] = useState(false);
+	const [sortingFilter, setSortingFilter] = useState('id');
+	const [search, setSearch] = useState('');
 
-	useEffect(() => {
-		setIsLoading(true);
+	const refreshTodos = () => {
+		setRefreshTodosFlag(!refreshTodosFlag);
+	};
 
-		fetch('https://jsonplaceholder.typicode.com/todos')
-			.then((response) => response.json())
-			.then((data) => setTodos(data.splice(0, 20)))
-			.finally(() => setIsLoading(false));
-	}, []);
+	const { todos, isLoading } = useGetTodos(refreshTodosFlag);
 
 	return (
-		<div className="flex flex-col justify-center items-center">
+		<div className="container">
 			{isLoading ? (
-				<svg
-					className="animate-spin h-[50px] w-[50px] absolute left-1/2 top-1/2 translate-x-1/2 translate-y-1/2 rounded-full border-[5px] border-[--color-secondary] border-l-transparent"
-					viewBox="0 0 50 50"
-				></svg>
+				<svg className="loader" viewBox="0 0 50 50"></svg>
 			) : (
-				<div className="w-[90%] p-4 flex flex-col justify-center items-center">
-					<h1 className="m-3 text-[3rem] font-medium text-center text-slate-100 uppercase">
-						Todo List
-					</h1>
-					<ul className="flex flex-wrap justify-center">
-						{todos.map((todo) => (
-							<li
-								key={todo.id}
-								className="m-3 px-4 py-2 bg-slate-200 rounded-md w-[350px] flex-wrap shadow-slate-100 shadow-sm hover:opacity-80 cursor-pointer"
-							>
-								{todo.title}
-							</li>
-						))}
+				<div className="container w-[90%] p-4">
+					<h1>Todo List</h1>
+
+					<AddNewTodo refreshTodos={refreshTodos} />
+
+					<div className="w-[90%] py-[20px] flex justify-center items-center border-t-2">
+						<div className="flex justify-between items-center">
+							<input
+								type="text"
+								value={search}
+								placeholder="SEARCH . . ."
+								onChange={({ target }) => setSearch(target.value)}
+								className="input-field"
+							/>
+							<FilterTodos
+								sortingFilter={sortingFilter}
+								setSortingFilter={setSortingFilter}
+							/>
+						</div>
+					</div>
+
+					<ul className="grid grid-flow-row grid-cols-3">
+						{todos
+							.filter((todo) => {
+								return search ? todo.title.includes(search) : todo;
+							})
+							.sort((a, b) => (a[sortingFilter] > b[sortingFilter] ? 1 : -1))
+							.map((todo) => (
+								<Todo
+									key={todo.id}
+									id={todo.id}
+									title={todo.title}
+									refreshTodos={refreshTodos}
+								/>
+							))}
 					</ul>
 				</div>
 			)}

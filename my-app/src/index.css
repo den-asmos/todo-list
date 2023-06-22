@@ -17,3 +17,39 @@
 		font-family: 'Poppins', sans-serif;
 	}
 }
+
+.edit-btn {
+	@apply px-4 py-2 h-[40px] bg-slate-200 rounded-md  duration-200;
+}
+
+.main-btn {
+	@apply px-4 h-[45px] bg-slate-200 rounded-md hover:scale-[110%] hover:ease-in-out duration-300;
+}
+
+.input-field {
+	@apply my-2 mx-3 p-2 border border-white rounded-md text-white w-[350px] h-[45px] focus:outline-none;
+}
+
+.icon {
+	@apply w-[25px] h-[25px] bg-transparent;
+}
+
+.list-item {
+	@apply relative m-3 p-2 bg-slate-200 rounded-md w-[350px] flex flex-wrap shadow-slate-100 shadow-sm cursor-pointer;
+}
+
+.position-center {
+	@apply absolute top-0 right-0 left-0 mr-auto ml-auto w-full h-full;
+}
+
+.loader {
+	@apply animate-spin h-[50px] w-[50px] absolute top-1/2 left-0 right-0 ml-auto mr-auto rounded-full border-[5px] border-[--color-secondary] border-l-transparent;
+}
+
+h1 {
+	@apply mt-3 mb-1 text-[4.5rem] font-medium text-center text-slate-100 uppercase;
+}
+
+.container {
+	@apply flex flex-col justify-center items-center;
+}
