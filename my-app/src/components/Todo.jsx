@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { ref, set, remove } from 'firebase/database';
+import { db } from '../firebase';
 import EditField from './EditField';
 import EditSection from './EditSection';
 
@@ -14,21 +16,18 @@ const Todo = ({ id, title, refreshTodos }) => {
 
 	const editTodo = () => {
 		if (newTitle) {
-			fetch(`http://localhost:7000/todos/${id}`, {
-				method: 'PUT',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ title: newTitle, id }),
-			}).finally(() => {
-				setIsEditing(false);
-				refreshTodos();
-			});
+			const todoDBRef = ref(db, `todos/${id}`);
+
+			set(todoDBRef, {
+				title: newTitle,
+			}).then(() => setIsEditing(false));
 		}
 	};
 
 	const deleteTodo = () => {
-		fetch(`http://localhost:7000/todos/${id}`, {
-			method: 'DELETE',
-		}).finally(() => refreshTodos());
+		const todoDBRef = ref(db, `todos/${id}`);
+
+		remove(todoDBRef);
 	};
 
 	return (

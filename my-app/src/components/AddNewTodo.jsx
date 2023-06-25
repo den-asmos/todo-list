@@ -1,20 +1,17 @@
 import { useState } from 'react';
+import { ref, push } from 'firebase/database';
+import { db } from '../firebase';
 
-const AddNewTodo = ({ refreshTodos }) => {
+const AddNewTodo = () => {
 	const [value, setValue] = useState('');
 
 	const addTodo = () => {
 		if (value) {
-			fetch('http://localhost:7000/todos', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					title: value,
-				}),
-			}).finally(() => {
-				refreshTodos();
-				setValue('');
-			});
+			const todosDBRef = ref(db, 'todos');
+
+			push(todosDBRef, {
+				title: value,
+			}).then(() => setValue(''));
 		}
 	};
 

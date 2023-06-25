@@ -11,7 +11,7 @@ export const App = () => {
 		setRefreshTodosFlag(!refreshTodosFlag);
 	};
 
-	const { todos, isLoading } = useGetTodos(refreshTodosFlag);
+	const { todos, isLoading } = useGetTodos();
 
 	return (
 		<div className="container">
@@ -21,7 +21,7 @@ export const App = () => {
 				<div className="container w-[90%] p-4">
 					<h1>Todo List</h1>
 
-					<AddNewTodo refreshTodos={refreshTodos} />
+					<AddNewTodo />
 
 					<div className="w-[90%] py-[20px] flex justify-center items-center border-t-2">
 						<div className="flex justify-between items-center">
