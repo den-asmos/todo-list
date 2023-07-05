@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { AddNewTodo, FilterTodos, Todo } from './components';
-import { useGetTodos } from './hooks';
+import { useGetTodos, useDebounce } from './hooks';
 
 export const App = () => {
 	const [refreshTodosFlag, setRefreshTodosFlag] = useState(false);
 	const [sortingFilter, setSortingFilter] = useState('id');
 	const [search, setSearch] = useState('');
+	const debounced = useDebounce(search);
 
 	const refreshTodos = () => {
 		setRefreshTodosFlag(!refreshTodosFlag);
@@ -42,7 +43,7 @@ export const App = () => {
 					<ul className="grid grid-flow-row grid-cols-3">
 						{todos
 							.filter((todo) => {
-								return search ? todo.title.includes(search) : todo;
+								return debounced ? todo.title.includes(debounced) : todo;
 							})
 							.sort((a, b) => (a[sortingFilter] > b[sortingFilter] ? 1 : -1))
 							.map((todo) => (
