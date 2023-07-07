@@ -1,17 +1,17 @@
 import { checkboxIcon } from '../assets';
 
-const EditField = ({ newTitle, setNewTitle, editTodo }) => {
+const EditField = ({ title, setTitle, editTodo }) => {
 	return (
-		<div className="list-item min-h-[40px]">
+		<div className="w-[300px] h-[400px] relative">
 			<input
 				type="text"
-				value={newTitle}
-				onChange={({ target }) => setNewTitle(target.value)}
-				className="absolute top-0 left-0 py-2 px-4 bg-transparent h-[40px] w-[308px] flex flex-wrap cursor-pointer focus:outline-none"
+				value={title}
+				onChange={({ target }) => setTitle(target.value)}
+				className="absolute outline-none top-1/2 left-0 w-[300px] h-[50px] text-[20px] py-3 px-4 bg-slate-100 rounded-md text-black"
 			/>
 			<button
 				onClick={editTodo}
-				className="edit-btn absolute top-0 right-0 hover:bg-slate-300"
+				className="edit-btn absolute top-1/2 -right-1/4 hover:bg-slate-300"
 			>
 				<img src={checkboxIcon} alt="checkbox" className="icon" />
 			</button>

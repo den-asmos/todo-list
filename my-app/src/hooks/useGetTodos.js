@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { URL } from '../utils/constants';
 
 export const useGetTodos = (refreshTodosFlag) => {
 	const [todos, setTodos] = useState([]);
@@ -7,7 +8,7 @@ export const useGetTodos = (refreshTodosFlag) => {
 	useEffect(() => {
 		setIsLoading(true);
 
-		fetch('http://localhost:7000/todos')
+		fetch(URL)
 			.then((response) => response.json())
 			.then((data) => setTodos(data))
 			.finally(() => setIsLoading(false));

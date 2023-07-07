@@ -1,7 +1,19 @@
 import AddNewTodo from './AddNewTodo';
 import FilterTodos from './FilterTodos';
-import Todo from './Todo';
 import EditSection from './EditSection';
 import EditField from './EditField';
+import TodoLink from './TodoLink';
+import HomePage from './HomePage';
+import TodoPage from './TodoPage';
+import NotFound from './NotFound';
 
-export { AddNewTodo, FilterTodos, Todo, EditSection, EditField };
+export {
+	AddNewTodo,
+	FilterTodos,
+	EditSection,
+	EditField,
+	TodoLink,
+	HomePage,
+	TodoPage,
+	NotFound,
+};
