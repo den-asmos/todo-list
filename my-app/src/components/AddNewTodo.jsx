@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AppContext } from '../context/AppContext';
 
-const AddNewTodo = ({ refreshTodos }) => {
+const AddNewTodo = () => {
 	const [value, setValue] = useState('');
+	const refreshTodos = useContext(AppContext);
 
 	const addTodo = () => {
 		if (value) {

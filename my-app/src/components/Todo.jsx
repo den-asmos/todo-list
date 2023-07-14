@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import EditField from './EditField';
 import EditSection from './EditSection';
+import { AppContext } from '../context/AppContext';
+import { TodoContext } from './../context/TodoContext';
 
-const Todo = ({ id, title, refreshTodos }) => {
+const Todo = ({ id, title }) => {
 	const [isChosen, setIsChosen] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
 	const [newTitle, setNewTitle] = useState(title);
+	const refreshTodos = useContext(AppContext);
 
 	const handleEdit = () => {
 		setIsChosen(false);
@@ -32,16 +35,18 @@ const Todo = ({ id, title, refreshTodos }) => {
 	};
 
 	return (
-		<>
+		<TodoContext.Provider
+			value={{ newTitle, setNewTitle, editTodo, handleEdit, deleteTodo }}
+		>
 			{isEditing ? (
-				<EditField newTitle={newTitle} setNewTitle={setNewTitle} editTodo={editTodo} />
+				<EditField />
 			) : (
 				<li onClick={() => setIsChosen(!isChosen)} className="list-item">
 					{title}
-					{isChosen && <EditSection handleEdit={handleEdit} deleteTodo={deleteTodo} />}
+					{isChosen && <EditSection />}
 				</li>
 			)}
-		</>
+		</TodoContext.Provider>
 	);
 };
 
