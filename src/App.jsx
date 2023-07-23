@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AddNewTodo, FilterTodos, Todo } from './components';
 import { useGetTodos, useDebounce } from './hooks';
 import { AppContext } from './context/AppContext';
+import * as api from './utils';
 
 export const App = () => {
 	const [refreshTodosFlag, setRefreshTodosFlag] = useState(false);
@@ -15,7 +16,7 @@ export const App = () => {
 	};
 
 	return (
-		<AppContext.Provider value={refreshTodos}>
+		<AppContext.Provider value={{ refreshTodos, api }}>
 			<div className="container">
 				{isLoading ? (
 					<svg className="loader" viewBox="0 0 50 50"></svg>

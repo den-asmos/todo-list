@@ -3,17 +3,11 @@ import { AppContext } from '../context/AppContext';
 
 const AddNewTodo = () => {
 	const [value, setValue] = useState('');
-	const refreshTodos = useContext(AppContext);
+	const { refreshTodos, api } = useContext(AppContext);
 
 	const addTodo = () => {
 		if (value) {
-			fetch('http://localhost:7000/todos', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					title: value,
-				}),
-			}).finally(() => {
+			api.createTodo(value).finally(() => {
 				refreshTodos();
 				setValue('');
 			});
