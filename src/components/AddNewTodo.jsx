@@ -1,16 +1,15 @@
-import { useContext, useState } from 'react';
-import { AppContext } from '../context/AppContext';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createTodo } from '../redux/actions';
 
 const AddNewTodo = () => {
+	const dispatch = useDispatch();
 	const [value, setValue] = useState('');
-	const { refreshTodos, api } = useContext(AppContext);
 
 	const addTodo = () => {
 		if (value) {
-			api.createTodo(value).finally(() => {
-				refreshTodos();
-				setValue('');
-			});
+			dispatch(createTodo(value));
+			setValue('');
 		}
 	};
 

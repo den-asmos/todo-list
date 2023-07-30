@@ -1,14 +1,15 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateTodo, deleteTodo } from '../redux/actions';
 import EditField from './EditField';
 import EditSection from './EditSection';
-import { AppContext } from '../context/AppContext';
-import { TodoContext } from './../context/TodoContext';
 
 const Todo = ({ id, title }) => {
+	const dispatch = useDispatch();
+
 	const [isChosen, setIsChosen] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
 	const [newTitle, setNewTitle] = useState(title);
-	const { refreshTodos, api } = useContext(AppContext);
 
 	const handleEdit = () => {
 		setIsChosen(false);
@@ -17,30 +18,26 @@ const Todo = ({ id, title }) => {
 
 	const editTodo = () => {
 		if (newTitle) {
-			api.updateTodo(id, newTitle).finally(() => {
-				setIsEditing(false);
-				refreshTodos();
-			});
+			dispatch(updateTodo(id, newTitle));
+			setIsEditing(false);
 		}
 	};
 
 	const removeTodo = () => {
-		api.deleteTodo(id).finally(() => refreshTodos());
+		dispatch(deleteTodo(id));
 	};
 
 	return (
-		<TodoContext.Provider
-			value={{ newTitle, setNewTitle, editTodo, handleEdit, removeTodo }}
-		>
+		<>
 			{isEditing ? (
-				<EditField />
+				<EditField newTitle={newTitle} setNewTitle={setNewTitle} editTodo={editTodo} />
 			) : (
 				<li onClick={() => setIsChosen(!isChosen)} className="list-item">
 					{title}
-					{isChosen && <EditSection />}
+					{isChosen && <EditSection handleEdit={handleEdit} removeTodo={removeTodo} />}
 				</li>
 			)}
-		</TodoContext.Provider>
+		</>
 	);
 };
 

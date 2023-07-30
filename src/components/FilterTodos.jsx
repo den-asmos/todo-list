@@ -1,8 +1,18 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { ALPHABETICAL_SORT, ORIGINAL_SEQUENCE } from '../redux/actions';
+import { selectSortingFilter } from '../redux/selectors';
 import { titleSortIcon, idSortIcon } from '../assets';
 
-const FilterTodos = ({ sortingFilter, setSortingFilter }) => {
+const FilterTodos = () => {
+	const dispatch = useDispatch();
+	const sortingFilter = useSelector(selectSortingFilter);
+
 	const handleSort = () => {
-		setSortingFilter(sortingFilter === 'id' ? 'title' : 'id');
+		if (sortingFilter === 'id') {
+			dispatch(ALPHABETICAL_SORT);
+		} else {
+			dispatch(ORIGINAL_SEQUENCE);
+		}
 	};
 
 	return (

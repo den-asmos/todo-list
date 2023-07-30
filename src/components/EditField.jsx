@@ -1,10 +1,6 @@
-import { useContext } from 'react';
 import { checkboxIcon } from '../assets';
-import { TodoContext } from '../context/TodoContext';
 
-const EditField = () => {
-	const { newTitle, setNewTitle, editTodo } = useContext(TodoContext);
-
+const EditField = ({ newTitle, setNewTitle, editTodo }) => {
 	return (
 		<div className="list-item min-h-[40px]">
 			<input
